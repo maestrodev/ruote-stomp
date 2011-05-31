@@ -1,0 +1,10 @@
+
+= ruote-stomp
+
+
+== ruote-stomp - 2.2.0    released ?
+
+- work has just begun, porting from ruote-amqp
+
+
+

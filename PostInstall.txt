@@ -1,0 +1,12 @@
+
+For more information on ruote-stomp, see http://github.com/maestrodev/ruote-stomp
+
+Please note that this gem requires access to an Stomp broker and a good 
+understanding of Stomp and remote participants in general.
+
+Join us in #ruote on Freenode or on the openwfe-users Google Group to discuss
+it's uses.
+
+You might also want to look at daemon-kit for help with writing external
+participants that communicate with ruote via Stomp.
+
