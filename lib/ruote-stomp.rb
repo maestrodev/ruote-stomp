@@ -29,7 +29,7 @@ module RuoteStomp
   class << self
 
     attr_writer :use_persistent_messages
-
+    
     # Whether or not to use persistent messages (true by default)
     def use_persistent_messages?
       @use_persistent_messages = true if @use_persistent_messages.nil?
@@ -45,7 +45,11 @@ module RuoteStomp
 
       Thread.main[:ruote_stomp_connection] = Thread.new do
         Thread.abort_on_exception = true
-        $stomp = Stomp::Client.new "", "", "localhost", 61613, true
+        $stomp = Stomp::Client.new STOMP.settings[:user], 
+                                   STOMP.settings[:passcode], 
+                                   STOMP.settings[:host], 
+                                   STOMP.settings[:port], 
+                                   STOMP.settings[:reliable]
         if $stomp
           started!
           cv.signal
@@ -59,7 +63,6 @@ module RuoteStomp
       #MQ.prefetch(1)
 
       yield if block_given?
-      
     end
 
     # Check whether the AMQP connection is started
@@ -78,6 +81,12 @@ module RuoteStomp
       Thread.main[:ruote_stomp_connection].join
       Thread.main[:ruote_stomp_started] = false
     end
+  end
+end
+
+module STOMP
+  def self.settings
+    @settings ||= {:host => "localhost", :port => "61613", :reliable => false}
   end
 end
 

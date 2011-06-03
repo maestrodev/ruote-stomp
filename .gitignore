@@ -4,3 +4,4 @@ logs/
 pkg/
 .yardoc
 doc/
+log/

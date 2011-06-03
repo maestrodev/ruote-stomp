@@ -27,6 +27,7 @@ Stomp participant/listener pair for ruote 2.2 - ported from ruote-amqp.
 
   s.add_development_dependency 'rake'
   s.add_development_dependency 'rspec', ">= 2.6.3"
+  s.add_development_dependency 'stompserver', '~> 0.9.9'
 
   s.require_path = 'lib'
 end
