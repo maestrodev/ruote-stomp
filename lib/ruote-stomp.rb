@@ -45,16 +45,20 @@ module RuoteStomp
 
       Thread.main[:ruote_stomp_connection] = Thread.new do
         Thread.abort_on_exception = true
-        $stomp = Stomp::Client.new STOMP.settings[:user], 
-                                   STOMP.settings[:passcode], 
-                                   STOMP.settings[:host], 
-                                   STOMP.settings[:port], 
-                                   STOMP.settings[:reliable]
-        if $stomp
-          started!
-          cv.signal
+        
+        begin
+          $stomp = Stomp::Client.new STOMP.settings[:user], 
+                                     STOMP.settings[:passcode], 
+                                     STOMP.settings[:host], 
+                                     STOMP.settings[:port], 
+                                     STOMP.settings[:reliable]
+          if $stomp
+            started!
+            cv.signal
+          end
+        rescue
+          raise RuntimeError, "Failed to connect to Stomp server."
         end
-
       end
 
       mutex.synchronize { cv.wait(mutex) }
