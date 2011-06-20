@@ -5,8 +5,6 @@ require 'rspec'
 $:.unshift(File.join(File.dirname(__FILE__), '../lib'))
 $:.unshift(File.join(File.dirname(__FILE__), '../../ruote/lib'))
 
-#gem 'amqp', '=0.6.7'
-
 require 'fileutils'
 require 'json'
 require 'timeout'

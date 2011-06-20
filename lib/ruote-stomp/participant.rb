@@ -67,13 +67,13 @@ module RuoteStomp
   # Setting up the participant in a slightly more 'raw' way:
   #
   #   engine.register_participant(
-  #     :amqp, RuoteStomp::ParticipantProxy )
+  #     :stomp, RuoteStomp::ParticipantProxy )
   #
   # Sending a workitem to a specific queue:
   #
   #   Ruote.process_definition do
   #     sequence do
-  #       amqp :queue => 'test', 'command' => '/run/regression_test'
+  #       stomp :queue => 'test', 'command' => '/run/regression_test'
   #     end
   #   end
   #
@@ -88,8 +88,8 @@ module RuoteStomp
   #
   #   Ruote.process_definition do
   #     sequence do
-  #       amqp :queue => 'test', :message => 'foo'
-  #       amqp :queue => 'test', :message => 'foo', :forget => true
+  #       stomp :queue => 'test', :message => 'foo'
+  #       stomp :queue => 'test', :message => 'foo', :forget => true
   #     end
   #   end
   #
@@ -169,25 +169,12 @@ module RuoteStomp
     def cancel(fei, flavour)
       #
       # TODO : sending a cancel item is not a bad idea, especially if the
-      #        job done over the amqp fence lasts...
+      #        job done over the stomp fence lasts...
       #
     end
 
     # [NOT sure about this behavior with Stomp yet.  Need to dive.]
     
-    # The current AMQP (0.6.7) has 1 queue per thread. If you let the default
-    # "one thread per participant consume call" kick in, you'll end up with
-    # 1 queue per consume call (and...)
-    #
-    # So, by returning true here, we force the queue to be always the same.
-    #
-    # Many thanks to https://github.com/weifeng365 for reporting this issue
-    # and suggesting the fix.
-    #
-    # TODO : should we have something to close queues when the engine / worker
-    #        shuts down ?
-    #        or is it already covered in the #stop ?
-    #
     def do_not_thread
 
       true

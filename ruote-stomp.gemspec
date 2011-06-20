@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.version = File.read('lib/ruote-stomp/version.rb').match(/VERSION = '([^']+)'/)[1]
   s.platform = Gem::Platform::RUBY
   s.authors = [ 'Kit Plummer' ]
-  s.email = [ 'kitplummer@gmail.com' ]
+  s.email = [ 'kplummer@maestrodev.com' ]
   s.homepage = 'http://ruote.rubyforge.org'
   s.rubyforge_project = 'ruote'
   s.summary = 'Stomp participant/listener pair for ruote 2.2'

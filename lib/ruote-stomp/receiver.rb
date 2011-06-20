@@ -28,7 +28,7 @@ module RuoteStomp
   #
   #   RuoteStomp::Receiver.new(engine_or_storage)
   #
-  # The workitem listener leverages the asynchronous nature of the amqp gem,
+  # The workitem listener leverages the asynchronous nature of the stomp gem,
   # so no timers are setup when initialized.
   #
   # == Options

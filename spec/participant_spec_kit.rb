@@ -8,12 +8,12 @@ describe RuoteStomp::ParticipantProxy, :type => :ruote do
 
     pdef = ::Ruote.process_definition :name => 'test' do
       sequence do
-        amqp :queue => 'test1', :forget => true
+        stomp :queue => 'test1', :forget => true
         echo 'done.'
       end
     end
 
-    @engine.register_participant(:amqp, RuoteStomp::ParticipantProxy)
+    @engine.register_participant(:stomp, RuoteStomp::ParticipantProxy)
 
     run_definition(pdef)
 
@@ -40,13 +40,13 @@ describe RuoteStomp::ParticipantProxy, :type => :ruote do
 
     pdef = ::Ruote.process_definition :name => 'test' do
       sequence do
-        amqp :queue => 'test4'
+        stomp :queue => 'test4'
         echo 'done.'
       end
     end
 
     @engine.register_participant(
-      :amqp, RuoteStomp::ParticipantProxy, 'forget' => true)
+      :stomp, RuoteStomp::ParticipantProxy, 'forget' => true)
 
     run_definition(pdef)
 
@@ -73,12 +73,12 @@ describe RuoteStomp::ParticipantProxy, :type => :ruote do
 
     pdef = ::Ruote.process_definition :name => 'test' do
       sequence do
-        amqp :queue => 'test2', :message => 'foo', :forget => true
+        stomp :queue => 'test2', :message => 'foo', :forget => true
         echo 'done.'
       end
     end
 
-    @engine.register_participant(:amqp, RuoteStomp::ParticipantProxy)
+    @engine.register_participant(:stomp, RuoteStomp::ParticipantProxy)
 
     run_definition(pdef)
 
@@ -105,13 +105,13 @@ describe RuoteStomp::ParticipantProxy, :type => :ruote do
 
     pdef = ::Ruote.process_definition :name => 'test' do
       sequence do
-        amqp :forget => true
+        stomp :forget => true
         echo 'done.'
       end
     end
 
     @engine.register_participant(
-      :amqp, RuoteStomp::ParticipantProxy, 'queue' => 'test5')
+      :stomp, RuoteStomp::ParticipantProxy, 'queue' => 'test5')
 
     run_definition(pdef)
 
@@ -132,13 +132,13 @@ describe RuoteStomp::ParticipantProxy, :type => :ruote do
     end
   end
 
-  it "passes 'participant_options' over amqp" do
+  it "passes 'participant_options' over stomp" do
 
     pdef = ::Ruote.process_definition :name => 'test' do
-      amqp :queue => 'test6', :forget => true
+      stomp :queue => 'test6', :forget => true
     end
 
-    @engine.register_participant(:amqp, RuoteStomp::ParticipantProxy)
+    @engine.register_participant(:stomp, RuoteStomp::ParticipantProxy)
 
     run_definition(pdef)
 
@@ -169,13 +169,13 @@ describe RuoteStomp::ParticipantProxy, :type => :ruote do
   it "doesn't create 1 queue instance per delivery" do
 
     pdef = ::Ruote.process_definition do
-      amqp :queue => 'test7', :forget => true
+      stomp :queue => 'test7', :forget => true
     end
 
     mq_count = 0
     ObjectSpace.each_object(MQ) { |o| mq_count += 1 }
 
-    @engine.register_participant(:amqp, RuoteStomp::ParticipantProxy)
+    @engine.register_participant(:stomp, RuoteStomp::ParticipantProxy)
 
     10.times do
       run_definition(pdef)

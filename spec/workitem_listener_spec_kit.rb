@@ -19,12 +19,12 @@ describe RuoteStomp::WorkitemListener do
       set :field => 'foo', :value => 'foo'
       sequence do
         echo '${f:foo}'
-        amqp :queue => 'test7'
+        stomp :queue => 'test7'
         echo '${f:foo}'
       end
     end
 
-    @engine.register_participant(:amqp, RuoteStomp::ParticipantProxy)
+    @engine.register_participant(:stomp, RuoteStomp::ParticipantProxy)
 
     RuoteStomp::WorkitemListener.new(@engine, :unsubscribe => true)
 
