@@ -22,7 +22,7 @@ Stomp participant/listener pair for ruote 2.2 - ported from ruote-amqp.
   ]
 
   #s.add_runtime_dependency 'stmop'
-  s.add_runtime_dependency 'stomp', '~>1.1.8'
+  s.add_runtime_dependency 'stomp', '1.1.8'
   s.add_runtime_dependency 'ruote', ">= #{s.version}"
 
   s.add_development_dependency 'rake'

@@ -16,12 +16,12 @@ describe RuoteStomp::Receiver do
       set :field => 'foo', :value => 'foo'
       sequence do
         echo '${f:foo}'
-        amqp :queue => 'test3'
+        stomp :queue => 'test3'
         echo '${f:foo}'
       end
     end
 
-    @engine.register_participant(:amqp, RuoteStomp::ParticipantProxy)
+    @engine.register_participant(:stomp, RuoteStomp::ParticipantProxy)
 
     RuoteStomp::Receiver.new(@engine)
 
