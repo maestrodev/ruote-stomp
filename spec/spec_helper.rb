@@ -13,7 +13,7 @@ require 'ruote/engine'
 require 'ruote/worker'
 require 'ruote/storage/hash_storage'
 require 'ruote/log/test_logger'
-require 'stomp_server'
+#require 'stomp_server'
 
 require 'ruote-stomp'
 
@@ -22,22 +22,22 @@ Dir[File.join(File.dirname(__FILE__), 'support/**/*.rb')].each { |path|
 }
 
 # No Stomp auth is configured/required.
-test = Thread.new do
-  EventMachine::run do
-    config = StompServer::Configurator.new
-    stomp = StompServer::Run.new(config.opts)
-    stomp.start
-
-    puts "Stomp protocol handler starting on #{config.opts[:host]} port #{config.opts[:port]}"
-    EventMachine.start_server(config.opts[:host], config.opts[:port], StompServer::Protocols::Stomp) {|s| s.instance_eval {
-      @@auth_required=false
-      @@queue_manager=stomp.queue_manager
-      @@topic_manager=stomp.topic_manager
-      @@stompauth = stomp.stompauth
-      }
-    }
-  end
-end
+# test = Thread.new do
+#   EventMachine::run do
+#     config = StompServer::Configurator.new
+#     stomp = StompServer::Run.new(config.opts)
+#     stomp.start
+# 
+#     puts "Stomp protocol handler starting on #{config.opts[:host]} port #{config.opts[:port]}"
+#     EventMachine.start_server(config.opts[:host], config.opts[:port], StompServer::Protocols::Stomp) {|s| s.instance_eval {
+#       @@auth_required=false
+#       @@queue_manager=stomp.queue_manager
+#       @@topic_manager=stomp.topic_manager
+#       @@stompauth = stomp.stompauth
+#       }
+#     }
+#   end
+# end
 
 STOMP.settings[:user]     = ""
 STOMP.settings[:passcode] = ""

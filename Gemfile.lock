@@ -4,7 +4,7 @@ PATH
     ruote-stomp (2.2.0.a)
       json
       ruote (>= 2.2.0.a)
-      stomp (= 1.1.8)
+      stomp (= 1.1.9)
 
 GEM
   remote: http://rubygems.org/
@@ -12,8 +12,8 @@ GEM
     daemons (1.1.4)
     diff-lcs (1.1.2)
     eventmachine (0.12.10)
-    file-tail (1.0.5)
-      spruz (>= 0.1.0)
+    file-tail (1.0.6)
+      spruz (~> 0.2)
     hoe (2.9.6)
       rake (~> 0.8)
     json (1.5.3)
@@ -36,7 +36,7 @@ GEM
     rufus-dollar (1.0.4)
     rufus-json (1.0.1)
     rufus-mnemo (1.2.0)
-    rufus-scheduler (2.0.9)
+    rufus-scheduler (2.0.10)
       tzinfo (>= 0.3.23)
     rufus-treechecker (1.0.6)
       ruby_parser (>= 2.0.5)
@@ -54,7 +54,7 @@ GEM
       ruby2ruby (>= 1.2.5)
       sexp_processor (>= 3.0.5)
     spruz (0.2.8)
-    stomp (1.1.8)
+    stomp (1.1.9)
     stompserver (0.9.9)
       daemons (>= 1.0.2)
       eventmachine (>= 0.7.2)
