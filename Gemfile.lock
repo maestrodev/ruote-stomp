@@ -1,10 +1,16 @@
+GIT
+  remote: git://github.com/kellyp/stomp.git
+  revision: 5429231b9941f78fc1ba8dfb883939bd4e26a94d
+  branch: m1.1.8
+  specs:
+    stomp (1.1.8)
+
 PATH
   remote: .
   specs:
-    ruote-stomp (2.2.0.a)
+    ruote-stomp (2.2.0.b)
       json
-      ruote (>= 2.2.0.a)
-      stomp (= 1.1.9)
+      ruote (>= 2.2.0.b)
 
 GEM
   remote: http://rubygems.org/
@@ -53,14 +59,13 @@ GEM
       file-tail (>= 1.0.5)
       ruby2ruby (>= 1.2.5)
       sexp_processor (>= 3.0.5)
-    spruz (0.2.8)
-    stomp (1.1.9)
+    spruz (0.2.9)
     stompserver (0.9.9)
       daemons (>= 1.0.2)
       eventmachine (>= 0.7.2)
       hoe (>= 1.1.1)
       hoe (>= 1.3.0)
-    tzinfo (0.3.28)
+    tzinfo (0.3.29)
 
 PLATFORMS
   ruby
@@ -69,4 +74,5 @@ DEPENDENCIES
   rake
   rspec (>= 2.6.0)
   ruote-stomp!
+  stomp!
   stompserver (~> 0.9.9)
