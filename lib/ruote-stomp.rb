@@ -55,7 +55,7 @@ module RuoteStomp
           
           # construct the connection URI
           user_and_password = [user,passcode].reject{|e| e.nil? || e.empty?}.join(":")
-          host_and_port = [host,port]].reject{|e| e.nil? || e.empty?}.join(":")
+          host_and_port = [host,port].reject{|e| e.nil? || e.empty?}.join(":")
           uri = [host_and_port, user_and_password].reject{|e| e.nil? || e.empty?}.reverse.join("@")
           protocol = ['stomp', ssl, '://'].reject{|e| e.nil? || e.empty?}.reverse.join
           
