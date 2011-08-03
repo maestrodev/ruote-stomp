@@ -1,10 +1,7 @@
-
 require 'ruote/part/local_participant'
 require 'ruote-stomp'
 
-
 module RuoteStomp
-
   #
   # = Stomp Participants
   #
@@ -162,7 +159,6 @@ module RuoteStomp
     # (Stops the underlying queue subscription)
     #
     def stop
-
       RuoteStomp.stop!
     end
 
@@ -176,21 +172,18 @@ module RuoteStomp
     # [NOT sure about this behavior with Stomp yet.  Need to dive.]
     
     def do_not_thread
-
       true
     end
 
     private
 
     def determine_forget(workitem)
-
       return workitem.params['forget'] if workitem.params.has_key?('forget')
       return @options['forget'] if @options.has_key?('forget')
       false
     end
 
     def determine_queue(workitem)
-
       workitem.params['queue'] || @options['queue']
     end
 
@@ -199,9 +192,7 @@ module RuoteStomp
     # this participant.
     #
     def encode_workitem(wi)
-
       wi.params['participant_options'] = @options
-
       Rufus::Json.encode(wi.to_h)
     end
   end

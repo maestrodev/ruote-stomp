@@ -1,6 +1,4 @@
-
 require 'ruote-stomp'
-
 
 module RuoteStomp
 
@@ -83,10 +81,10 @@ module RuoteStomp
         sleep 0.300
       end
       
-      $stomp.subscribe(@queue, {}) do |message|
+      $stomp.subscribe(@queue) do |message|
         # Process your message here
         # Your submitted data is in msg.body
-        if $stomp.closed?
+        if $stomp.connected?
           # do nothing, we're going down
         else
           handle(message)
@@ -104,14 +102,12 @@ module RuoteStomp
     end
 
     def stop
-
       RuoteStomp.stop!
     end
 
     # (feel free to overwrite me)
     #
     def decode_workitem(msg)
-
       (Rufus::Json.decode(msg) rescue nil)
     end
 

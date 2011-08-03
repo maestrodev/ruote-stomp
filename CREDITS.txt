@@ -6,6 +6,7 @@
 == AUTHORS
 
 * Kit Plummer - http://kitplummer.github.com
+* Brian Sam-Bodden = http://bsbodden.github.com
 
 == AUTHORS (from ruote-amqp)
 

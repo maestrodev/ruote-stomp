@@ -1,4 +1,4 @@
-require 'stomp'
+require 'onstomp'
 
 require 'ruote-stomp/version'
 
@@ -21,7 +21,6 @@ require 'ruote-stomp/version'
 module RuoteStomp
 
   autoload 'ParticipantProxy',   'ruote-stomp/participant'
-
   autoload 'Receiver',           'ruote-stomp/receiver'
   autoload 'WorkitemListener',   'ruote-stomp/workitem_listener'
   autoload 'LaunchitemListener', 'ruote-stomp/launchitem_listener'
@@ -47,11 +46,21 @@ module RuoteStomp
         Thread.abort_on_exception = true
         
         begin
-          $stomp = Stomp::Client.new STOMP.settings[:user], 
-                                     STOMP.settings[:passcode], 
-                                     STOMP.settings[:host], 
-                                     STOMP.settings[:port], 
-                                     STOMP.settings[:reliable]
+          # grab stomp configuration settings
+          user = STOMP.settings[:user]
+          passcode = STOMP.settings[:passcode]
+          host = STOMP.settings[:host]
+          port = STOMP.settings[:port]
+          ssl = STOMP.settings[:ssl] ? "+ssl" : ""
+          
+          # construct the connection URI
+          user_and_password = [user,passcode].reject{|e| e.nil? || e.empty?}.join(":")
+          host_and_port = [host,port]].reject{|e| e.nil? || e.empty?}.join(":")
+          uri = [host_and_port, user_and_password].reject{|e| e.nil? || e.empty?}.reverse.join("@")
+          protocol = ['stomp', ssl, '://'].reject{|e| e.nil? || e.empty?}.reverse.join
+          
+          $stomp = OnStomp::Client.new "#{protocol}#{uri}"
+
           if $stomp
             started!
             cv.signal
@@ -81,7 +90,7 @@ module RuoteStomp
     # Close down the Stomp connections
     def stop!
       return unless started?
-      $stomp.close
+      $stomp.disconnect
       Thread.main[:ruote_stomp_connection].join
       Thread.main[:ruote_stomp_started] = false
     end
@@ -90,7 +99,7 @@ end
 
 module STOMP
   def self.settings
-    @settings ||= {:host => "localhost", :port => "61613", :reliable => false}
+    @settings ||= {:host => "localhost", :port => "61613"}
   end
 end
 
