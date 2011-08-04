@@ -57,16 +57,16 @@ module RuoteStomp
           user_and_password = [user,passcode].reject{|e| e.nil? || e.empty?}.join(":")
           host_and_port = [host,port].reject{|e| e.nil? || e.empty?}.join(":")
           uri = [host_and_port, user_and_password].reject{|e| e.nil? || e.empty?}.reverse.join("@")
-          protocol = ['stomp', ssl, '://'].reject{|e| e.nil? || e.empty?}.reverse.join
-          
+          protocol = ['stomp', ssl, '://'].reject{|e| e.nil? || e.empty?}.join
+
           $stomp = OnStomp::Client.new "#{protocol}#{uri}"
 
           if $stomp
             started!
             cv.signal
           end
-        rescue
-          raise RuntimeError, "Failed to connect to Stomp server."
+        rescue Exception => e
+          raise RuntimeError, "Failed to connect to Stomp server. (#{e.message})"
         end
       end
 
