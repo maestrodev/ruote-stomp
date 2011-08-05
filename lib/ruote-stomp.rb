@@ -2,7 +2,6 @@ require 'onstomp'
 
 require 'ruote-stomp/version'
 
-
 #
 # Stomp participant and listener pair for ruote.
 #
@@ -38,13 +37,11 @@ module RuoteStomp
     # Ensure the Stomp connection is started
     def start!
       return if started?
-
       mutex = Mutex.new
       cv = ConditionVariable.new
-
       Thread.main[:ruote_stomp_connection] = Thread.new do
         Thread.abort_on_exception = true
-        
+
         begin
           # grab stomp configuration settings
           user = STOMP.settings[:user]
@@ -52,7 +49,7 @@ module RuoteStomp
           host = STOMP.settings[:host]
           port = STOMP.settings[:port]
           ssl = STOMP.settings[:ssl] ? "+ssl" : ""
-          
+
           # construct the connection URI
           user_and_password = [user,passcode].reject{|e| e.nil? || e.empty?}.join(":")
           host_and_port = [host,port].reject{|e| e.nil? || e.empty?}.join(":")
@@ -60,8 +57,9 @@ module RuoteStomp
           protocol = ['stomp', ssl, '://'].reject{|e| e.nil? || e.empty?}.join
 
           $stomp = OnStomp::Client.new "#{protocol}#{uri}"
+          $stomp.connect
 
-          if $stomp
+          if $stomp && $stomp.connected?
             started!
             cv.signal
           end

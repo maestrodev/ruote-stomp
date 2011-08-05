@@ -13,7 +13,6 @@ module RuoteStomp
     # @param opts :queue / :unsubscribe
     #
     def initialize(engine_or_storage, opts={})
-
       super(engine_or_storage, opts.merge(:launchitems => :only))
     end
   end

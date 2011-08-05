@@ -76,7 +76,6 @@ module RuoteStomp
       RuoteStomp.start!
 
       if opts[:unsubscribe]
-        #MQ.queue(@queue, :durable => true).unsubscribe
         $stomp.unsubscribe(@queue)
         sleep 0.300
       end
@@ -90,15 +89,6 @@ module RuoteStomp
           handle(message)
         end
       end
-      #$stomp.join # Wait until listening thread dies
-      
-      # MQ.queue(@queue, :durable => true).subscribe do |message|
-      #   if AMQP.closing?
-      #     # do nothing, we're going down
-      #   else
-      #     handle(message)
-      #   end
-      # end
     end
 
     def stop
@@ -149,4 +139,3 @@ module RuoteStomp
     end
   end
 end
-

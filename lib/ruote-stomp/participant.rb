@@ -119,8 +119,8 @@ module RuoteStomp
       }.merge(options.inject({}) { |h, (k, v)|
         h[k.to_s] = v; h
       })
-        #
-        # the inject is here to make sure that all options have String keys
+      #
+      # the inject is here to make sure that all options have String keys
     end
 
     # Process the workitem at hand. By default the workitem will be
@@ -135,7 +135,6 @@ module RuoteStomp
 
       raise 'no queue specified (outbound delivery)' unless target_queue
 
-      #q = MQ.queue(target_queue, :durable => true)
       forget = determine_forget(workitem)
 
       opts = {
@@ -146,11 +145,8 @@ module RuoteStomp
 
         forget = true # sending a message implies 'forget' => true
         $stomp.publish target_queue, message, opts         
-        #q.publish(message, opts)
-
       else
         $stomp.publish target_queue, encode_workitem(workitem), opts
-        #q.publish(encode_workitem(workitem), opts)
       end
 
       reply_to_engine(workitem) if forget
