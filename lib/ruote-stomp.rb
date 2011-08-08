@@ -47,7 +47,7 @@ module RuoteStomp
           user = STOMP.settings[:user]
           passcode = STOMP.settings[:passcode]
           host = STOMP.settings[:host]
-          port = STOMP.settings[:port]
+          port = STOMP.settings[:port].to_s
           ssl = STOMP.settings[:ssl] ? "+ssl" : ""
 
           # construct the connection URI
