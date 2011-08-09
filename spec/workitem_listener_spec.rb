@@ -58,8 +58,8 @@ describe RuoteStomp::WorkitemListener do
 
     workitem.fields['foo'] = 'bar'
 
-    #MQ.queue('ruote_workitems', :durable => true).publish(Rufus::Json.encode(workitem.to_h), :persistent => true)
-    $stomp.publish '/queue/ruote_workitems', 
+    #MQ.queue('ruote_workitems', :durable => true).send(Rufus::Json.encode(workitem.to_h), :persistent => true)
+    $stomp.send '/queue/ruote_workitems', 
       Rufus::Json.encode(workitem.to_h), 
       { :persistent => true }
       

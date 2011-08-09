@@ -1,5 +1,4 @@
 require 'ruote-stomp'
-
 module RuoteStomp
 
   #
@@ -70,8 +69,8 @@ module RuoteStomp
       @launchitems = opts[:launchitems]
 
       @queue =
-        opts[:queue] ||
-        (@launchitems == :only ? '/queue/ruote_launchitems' : '/queue/ruote_workitems')
+      opts[:queue] ||
+      (@launchitems == :only ? '/queue/ruote_launchitems' : '/queue/ruote_workitems')
 
       RuoteStomp.start!
 
@@ -79,17 +78,10 @@ module RuoteStomp
         $stomp.unsubscribe(@queue)
         sleep 0.300
       end
-      
-      $stomp.subscribe(@queue) do |message|
-        # Process your message here
-        # Your submitted data is in msg.body
-        if $stomp.connected?
-          # do nothing, we're going down
-        else
-          handle(message)
+        $stomp.subscribe(@queue) do |message|
+          handle(message) if $stomp.connected?
         end
       end
-    end
 
     def stop
       RuoteStomp.stop!
@@ -106,9 +98,7 @@ module RuoteStomp
     def handle(msg)
       item = decode_workitem(msg.body)
       return unless item.is_a?(Hash)
-
-      not_li = ! item.has_key?('definition')
-
+      not_li = ! item.has_key?('definition')      
       return if @launchitems == :only && not_li
       return unless @launchitems || not_li
 

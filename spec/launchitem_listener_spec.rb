@@ -22,15 +22,23 @@ describe RuoteStomp::LaunchitemListener do
 
     RuoteStomp::LaunchitemListener.new(@engine)
 
-    $stomp.publish '/queue/ruote_launchitems', json, { :persistent => true }
-    #MQ.queue('ruote_launchitems', :durable => true).publish(json)
+    $stomp.send '/queue/ruote_launchitems', json, { :persistent => true }
+    #MQ.queue('ruote_launchitems', :durable => true).send(json)
 
-    sleep 0.5
 
     @engine.should_not have_errors
     @engine.should_not have_remaining_expressions
-
-    @tracer.to_s.should == 'bar'
+    
+    begin
+      Timeout::timeout(10) do
+        while @tracer.to_s != 'bar'
+          print "*"
+          sleep 1
+        end
+      end
+    rescue Timeout::Error
+      fail "Timeout waiting for message"
+    end
   end
 
   it 'discards corrupt process definitions' do
@@ -48,9 +56,9 @@ describe RuoteStomp::LaunchitemListener do
     err = StringIO.new(serr, 'w+')
     $stderr = err
 
-    $stomp.publish '/queue/ruote_launchitems', json, { :persistent => true }
+    $stomp.send '/queue/ruote_launchitems', json, { :persistent => true }
 
-    #MQ.queue('ruote_launchitems', :durable => true).publish(json)
+    #MQ.queue('ruote_launchitems', :durable => true).send(json)
 
     sleep 0.5
 

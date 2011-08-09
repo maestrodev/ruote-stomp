@@ -124,7 +124,7 @@ module RuoteStomp
     end
 
     # Process the workitem at hand. By default the workitem will be
-    # published to the direct exchange specified in the +queue+
+    # sended to the direct exchange specified in the +queue+
     # workitem parameter. You can specify a +message+ workitem
     # parameter to have that sent instead of the workitem.
     #
@@ -144,9 +144,9 @@ module RuoteStomp
       if message = workitem.fields['message'] || workitem.params['message']
 
         forget = true # sending a message implies 'forget' => true
-        $stomp.publish target_queue, message, opts         
+        $stomp.send target_queue, message, opts         
       else
-        $stomp.publish target_queue, encode_workitem(workitem), opts
+        $stomp.send target_queue, encode_workitem(workitem), opts
       end
 
       reply_to_engine(workitem) if forget

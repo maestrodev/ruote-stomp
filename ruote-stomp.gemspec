@@ -21,6 +21,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'onstomp', "~> 1.0.4"
   s.add_runtime_dependency 'ruote', "~> 2.2.0"
   s.add_runtime_dependency 'json'
+  s.add_runtime_dependency 'parslet'
   s.add_development_dependency 'rake'
   s.add_development_dependency 'rspec', ">= 2.6.0"
   s.add_development_dependency 'stompserver', '~> 0.9.9'

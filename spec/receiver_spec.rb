@@ -53,8 +53,8 @@ describe RuoteStomp::Receiver do
 
     workitem.fields['foo'] = "bar"
 
-    #MQ.queue('ruote_workitems', :durable => true).publish(Rufus::Json.encode(workitem.to_h), :persistent => true)
-    $stomp.publish '/queue/ruote_workitems', 
+    #MQ.queue('ruote_workitems', :durable => true).send(Rufus::Json.encode(workitem.to_h), :persistent => true)
+    $stomp.send '/queue/ruote_workitems', 
       Rufus::Json.encode(workitem.to_h), 
       { :persistent => true }
     @engine.wait_for(wfid)
@@ -82,11 +82,11 @@ describe RuoteStomp::Receiver do
 
     # MQ.queue(
     #   'ruote_workitems', :durable => true
-    # ).publish(
+    # ).send(
     #   json, :persistent => true
     # )
     
-    $stomp.publish '/queue/ruote_workitems', json, { :persistent => true }
+    $stomp.send '/queue/ruote_workitems', json, { :persistent => true }
     
 
     sleep 0.5
@@ -110,11 +110,11 @@ describe RuoteStomp::Receiver do
 
     # MQ.queue(
     #   'ruote_workitems', :durable => true
-    # ).publish(
+    # ).send(
     #   json, :persistent => true
     # )
     
-    $stomp.publish '/queue/ruote_workitems', 
+    $stomp.send '/queue/ruote_workitems', 
       json, 
       { :persistent => true }
 
@@ -125,11 +125,11 @@ describe RuoteStomp::Receiver do
 
     # MQ.queue(
     #   'mario', :durable => true
-    # ).publish(
+    # ).send(
     #   json, :persistent => true
     # )
     
-    $stomp.publish '/queue/mario', 
+    $stomp.send '/queue/mario', 
       json, 
       { :persistent => true }
 

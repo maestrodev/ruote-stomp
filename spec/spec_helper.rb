@@ -65,6 +65,7 @@ RSpec.configure do |config|
 
   config.after(:each) do
     @engine.shutdown
+    
     @engine.context.storage.purge!
   end
 
@@ -72,6 +73,7 @@ RSpec.configure do |config|
     base = File.expand_path(File.dirname(__FILE__) + '/..')
     FileUtils.rm_rf(base + '/logs')
     FileUtils.rm_rf(base + '/work')
+    
   end
 end
 
