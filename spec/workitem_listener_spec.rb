@@ -49,14 +49,7 @@ describe RuoteStomp::WorkitemListener do
 
     workitem.fields['foo'] = 'bar'
 
-<<<<<<< Updated upstream
-    #MQ.queue('ruote_workitems', :durable => true).send(Rufus::Json.encode(workitem.to_h), :persistent => true)
-    $stomp.send '/queue/ruote_workitems', 
-      Rufus::Json.encode(workitem.to_h), 
-      { :persistent => true }
-=======
     $stomp.send '/queue/ruote_workitems', Rufus::Json.encode(workitem.to_h)
->>>>>>> Stashed changes
       
     @engine.wait_for(wfid)
 

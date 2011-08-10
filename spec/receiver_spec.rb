@@ -44,16 +44,9 @@ describe RuoteStomp::Receiver do
     end
       
     workitem.fields['foo'] = "bar"
-<<<<<<< Updated upstream
-
-    #MQ.queue('ruote_workitems', :durable => true).send(Rufus::Json.encode(workitem.to_h), :persistent => true)
-    $stomp.send '/queue/ruote_workitems', 
-      Rufus::Json.encode(workitem.to_h), 
-      { :persistent => true }
-=======
       
     $stomp.send '/queue/ruote_workitems', Rufus::Json.encode(workitem.to_h)
->>>>>>> Stashed changes
+
     @engine.wait_for(wfid)
       
     @engine.should_not have_errors
@@ -80,15 +73,6 @@ describe RuoteStomp::Receiver do
 
     finished_processing = false
 
-<<<<<<< Updated upstream
-    # MQ.queue(
-    #   'ruote_workitems', :durable => true
-    # ).send(
-    #   json, :persistent => true
-    # )
-    
-    $stomp.send '/queue/ruote_workitems', json, { :persistent => true }
-=======
     $stomp.send('/queue/ruote_workitems', json) do |r|
       finished_processing = true
     end
@@ -103,7 +87,6 @@ describe RuoteStomp::Receiver do
     rescue Timeout::Error
       fail "Timeout waiting for message"
     end
->>>>>>> Stashed changes
     
     Thread.pass until finished_processing
 
@@ -124,44 +107,16 @@ describe RuoteStomp::Receiver do
     json = Rufus::Json.encode({
       'definition' => "Ruote.define { alpha }"
     })
-<<<<<<< Updated upstream
-
-    # MQ.queue(
-    #   'ruote_workitems', :durable => true
-    # ).send(
-    #   json, :persistent => true
-    # )
-    
-    $stomp.send '/queue/ruote_workitems', 
-      json, 
-      { :persistent => true }
-
-=======
     
     $stomp.send '/queue/ruote_workitems', json
   
->>>>>>> Stashed changes
     sleep 1
   
     @engine.processes.size.should == 0
       # nothing happened
-<<<<<<< Updated upstream
-
-    # MQ.queue(
-    #   'mario', :durable => true
-    # ).send(
-    #   json, :persistent => true
-    # )
-    
-    $stomp.send '/queue/mario', 
-      json, 
-      { :persistent => true }
-
-=======
   
     $stomp.send '/queue/mario', json
   
->>>>>>> Stashed changes
     sleep 1
   
     @engine.processes.size.should == 1

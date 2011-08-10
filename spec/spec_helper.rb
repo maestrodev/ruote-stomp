@@ -66,11 +66,6 @@ RSpec.configure do |config|
   end
 
   config.after(:each) do
-<<<<<<< Updated upstream
-    @engine.shutdown
-    
-=======
->>>>>>> Stashed changes
     @engine.context.storage.purge!
     @engine.shutdown
   end
@@ -79,10 +74,8 @@ RSpec.configure do |config|
     base = File.expand_path(File.dirname(__FILE__) + '/..')
     FileUtils.rm_rf(base + '/logs')
     FileUtils.rm_rf(base + '/work')
-    
   end
 end
-
 
 class Tracer
   def initialize
