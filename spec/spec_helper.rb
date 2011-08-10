@@ -1,4 +1,3 @@
-
 require 'rubygems'
 require 'rspec'
 
@@ -29,13 +28,16 @@ Dir[File.join(File.dirname(__FILE__), 'support/**/*.rb')].each { |path|
 #     stomp.start
 # 
 #     puts "Stomp protocol handler starting on #{config.opts[:host]} port #{config.opts[:port]}"
-#     EventMachine.start_server(config.opts[:host], config.opts[:port], StompServer::Protocols::Stomp) {|s| s.instance_eval {
-#       @@auth_required=false
-#       @@queue_manager=stomp.queue_manager
-#       @@topic_manager=stomp.topic_manager
-#       @@stompauth = stomp.stompauth
+#     EventMachine.start_server(config.opts[:host], 
+#                               config.opts[:port], 
+#                               StompServer::Protocols::Stomp) do |s| 
+#       s.instance_eval {
+#         @@auth_required = false
+#         @@queue_manager = stomp.queue_manager
+#         @@topic_manager = stomp.topic_manager
+#         @@stompauth = stomp.stompauth
 #       }
-#     }
+#     end
 #   end
 # end
 
@@ -53,20 +55,24 @@ RSpec.configure do |config|
   
   config.before(:each) do
     @tracer = Tracer.new
-
     @engine = Ruote::Engine.new(
-    Ruote::Worker.new(
-    Ruote::HashStorage.new(
-    's_logger' => [ 'ruote/log/test_logger', 'Ruote::TestLogger' ])))
-
+      Ruote::Worker.new(
+        Ruote::HashStorage.new('s_logger' => [ 'ruote/log/test_logger', 'Ruote::TestLogger' ])
+      )
+    )
+    
     @engine.add_service('tracer', @tracer)
     #@engine.noisy = true
   end
 
   config.after(:each) do
+<<<<<<< Updated upstream
     @engine.shutdown
     
+=======
+>>>>>>> Stashed changes
     @engine.context.storage.purge!
+    @engine.shutdown
   end
 
   config.after(:all) do

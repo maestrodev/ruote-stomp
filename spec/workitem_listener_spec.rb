@@ -1,11 +1,9 @@
-
 require File.join(File.dirname(__FILE__), 'spec_helper')
 
 #
 # NOTE : RuoteStomp::WorkitemListener has been depreacted in favour of
 #        RuoteStomp::Receiver
 #
-
 
 describe RuoteStomp::WorkitemListener do
 
@@ -26,9 +24,7 @@ describe RuoteStomp::WorkitemListener do
 
     @engine.register_participant(:stomp, RuoteStomp::ParticipantProxy)
 
-    RuoteStomp::WorkitemListener.new(@engine, :unsubscribe => true)
-
-    #@engine.noisy = true
+    RuoteStomp::WorkitemListener.new(@engine, :unsubscribe => true, :ignore_disconnect_on_process => true)
 
     wfid = @engine.launch(pdef)
 
@@ -36,13 +32,8 @@ describe RuoteStomp::WorkitemListener do
 
     begin
       Timeout::timeout(5) do
-
-        # MQ.queue('test7', :durable => true).subscribe { |msg|
-        #   wi = Ruote::Workitem.new(Rufus::Json.decode(msg))
-        #   workitem = wi if wi.wfid == wfid
-        # }
         
-        $stomp.subscribe("/queue/test7", {:persistent => true}) do |message|
+        $stomp.subscribe("/queue/test7") do |message|
           wi = Ruote::Workitem.new(Rufus::Json.decode(message.body))
           workitem = wi if wi.wfid == wfid
         end
@@ -58,10 +49,14 @@ describe RuoteStomp::WorkitemListener do
 
     workitem.fields['foo'] = 'bar'
 
+<<<<<<< Updated upstream
     #MQ.queue('ruote_workitems', :durable => true).send(Rufus::Json.encode(workitem.to_h), :persistent => true)
     $stomp.send '/queue/ruote_workitems', 
       Rufus::Json.encode(workitem.to_h), 
       { :persistent => true }
+=======
+    $stomp.send '/queue/ruote_workitems', Rufus::Json.encode(workitem.to_h)
+>>>>>>> Stashed changes
       
     @engine.wait_for(wfid)
 

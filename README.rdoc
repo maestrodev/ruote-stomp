@@ -17,7 +17,7 @@ http://ruote.rubyforge.org/part_implementations.html
 * Flexible participant for sending workitems
 * Flexible receiver for receiving replies
 * Flexible launch item listener for launching processes over Stomp
-* Fully evented (thanks to the stomp gem)
+* Fully evented (thanks to the onstomp gem)
 
 == SYNOPSIS:
 
@@ -26,7 +26,7 @@ Please review the code for information (rdocs to be updated soon.)
 == REQUIREMENTS:
 
 * ruote[http://ruote.rubyforge.org] 2.2.0 or later
-* stomp[https://gitorious.org/stomp] 1.1.8 or later
+* onstomp[https://github.com/meadvillerb/onstomp] 1.0.4 or later
 * a server that supports Stomp (stompserver, ActiveMQ, RabbitMQ)
 
 == INSTALL:
@@ -60,8 +60,13 @@ ruote-amqp, which this works is based on)
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
 'Software'), to deal in the Software without restriction, including
+<<<<<<< Updated upstream
 without limitation the rights to use, copy, modify, merge, send,
 distribute, sublicense, and/or sell copies of the Software, and to
+=======
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of tshe Software, and to
+>>>>>>> Stashed changes
 permit persons to whom the Software is furnished to do so, subject to
 the following conditions:
 

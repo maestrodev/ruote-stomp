@@ -53,6 +53,9 @@ module RuoteStomp
     # :queue for setting the queue on which to listen (defaults to
     # 'ruote_workitems').
     #
+    # :ignore_disconnect_on_process => true|false (defauts to false)
+    # processes the message even if the client has disconnected (use in testing only)
+    # 
     # The :launchitems option :
     #
     #   :launchitems => true
@@ -67,19 +70,42 @@ module RuoteStomp
       super(engine_or_storage)
 
       @launchitems = opts[:launchitems]
+      ignore_disconnect = opts[:ignore_disconnect_on_process]
 
       @queue =
+<<<<<<< Updated upstream
       opts[:queue] ||
       (@launchitems == :only ? '/queue/ruote_launchitems' : '/queue/ruote_workitems')
+=======
+        opts[:queue] ||
+        (@launchitems == :only ? '/queue/ruote_launchitems' : '/queue/ruote_workitems')
+        
+        puts "the queue is #{@queue}"
+>>>>>>> Stashed changes
 
       RuoteStomp.start!
 
       if opts[:unsubscribe]
-        $stomp.unsubscribe(@queue)
+        begin
+          $stomp.unsubscribe(@queue)
+        rescue OnStomp::UnsupportedCommandError => e
+          $stderr.puts("Connection does support unsubscribe")
+        end
         sleep 0.300
       end
+<<<<<<< Updated upstream
         $stomp.subscribe(@queue) do |message|
           handle(message) if $stomp.connected?
+=======
+
+      $stomp.subscribe(@queue) do |message|
+        # Process your message here
+        # Your submitted data is in msg.body
+        if $stomp.connected? && !ignore_disconnect
+          # do nothing, we're going down
+        else
+          handle(message)
+>>>>>>> Stashed changes
         end
       end
 
@@ -98,7 +124,11 @@ module RuoteStomp
     def handle(msg)
       item = decode_workitem(msg.body)
       return unless item.is_a?(Hash)
+<<<<<<< Updated upstream
       not_li = ! item.has_key?('definition')      
+=======
+      not_li = ! item.has_key?('definition')
+>>>>>>> Stashed changes
       return if @launchitems == :only && not_li
       return unless @launchitems || not_li
 

@@ -4,33 +4,22 @@ PATH
     ruote-stomp (2.2.0.c)
       json
       onstomp (~> 1.0.4)
-<<<<<<< Updated upstream
-      parslet
-=======
->>>>>>> Stashed changes
       ruote (~> 2.2.0)
 
 GEM
   remote: http://rubygems.org/
   specs:
-    blankslate (2.1.2.4)
     daemons (1.1.4)
     diff-lcs (1.1.2)
     eventmachine (0.12.10)
     eventmachine (0.12.10-java)
     file-tail (1.0.6)
       spruz (~> 0.2)
-    hoe (2.11.0)
+    hoe (2.9.6)
       rake (~> 0.8)
     json (1.5.3)
-<<<<<<< Updated upstream
-    onstomp (1.0.4)
-    parslet (1.2.1)
-      blankslate (~> 2.0)
-=======
     json (1.5.3-java)
     onstomp (1.0.4)
->>>>>>> Stashed changes
     rake (0.9.2)
     rspec (2.6.0)
       rspec-core (~> 2.6.0)

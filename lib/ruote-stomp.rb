@@ -43,20 +43,7 @@ module RuoteStomp
         Thread.abort_on_exception = true
 
         begin
-          # grab stomp configuration settings
-          user = STOMP.settings[:user]
-          passcode = STOMP.settings[:passcode]
-          host = STOMP.settings[:host]
-          port = STOMP.settings[:port].to_s
-          ssl = STOMP.settings[:ssl] ? "+ssl" : ""
-
-          # construct the connection URI
-          user_and_password = [user,passcode].reject{|e| e.nil? || e.empty?}.join(":")
-          host_and_port = [host,port].reject{|e| e.nil? || e.empty?}.join(":")
-          uri = [host_and_port, user_and_password].reject{|e| e.nil? || e.empty?}.reverse.join("@")
-          protocol = ['stomp', ssl, '://'].reject{|e| e.nil? || e.empty?}.join
-
-          $stomp = OnStomp::Client.new "#{protocol}#{uri}"
+          $stomp = OnStomp::Client.new create_connection_uri(STOMP.settings)
           $stomp.connect
 
           if $stomp && $stomp.connected?
@@ -69,9 +56,6 @@ module RuoteStomp
       end
 
       mutex.synchronize { cv.wait(mutex) }
-
-      # Stomp equivalent?
-      #MQ.prefetch(1)
 
       yield if block_given?
     end
@@ -91,6 +75,25 @@ module RuoteStomp
       $stomp.disconnect
       Thread.main[:ruote_stomp_connection].join
       Thread.main[:ruote_stomp_started] = false
+    end
+    
+    protected
+    
+    def create_connection_uri(config={})
+      config = config.map { |n,v| {n,v.to_s} }.reduce(:merge)
+      user = config[:user]
+      passcode = config[:passcode]
+      host = config[:host]
+      port = config[:port]
+      ssl = config[:ssl] ? "+ssl" : ""
+
+      # construct the connection URI
+      user_and_password = [user,passcode].reject{|e| e.nil? || e.empty?}.join(":")
+      host_and_port = [host,port].reject{|e| e.nil? || e.empty?}.join(":")
+      uri = [host_and_port, user_and_password].reject{|e| e.nil? || e.empty?}.reverse.join("@")
+      protocol = ['stomp', ssl, '://'].reject{|e| e.nil? || e.empty?}.join
+      
+      "#{protocol}#{uri}"
     end
   end
 end

@@ -26,9 +26,7 @@ describe RuoteStomp::ParticipantProxy, :type => :ruote do
     begin
       Timeout::timeout(10) do
         @msg = nil
-        #MQ.queue('test1', :durable => true).subscribe { |msg| @msg = msg }
         $stomp.subscribe("/queue/test1") do |message|
-          
           @msg = message.body
         end
         
@@ -97,8 +95,7 @@ describe RuoteStomp::ParticipantProxy, :type => :ruote do
     begin
       Timeout::timeout(5) do
         @msg = nil
-        #MQ.queue('test2', :durable => true).subscribe { |msg| @msg = msg }
-        $stomp.subscribe("/queue/test2", {}) do |message|
+        $stomp.subscribe("/queue/test2") do |message|
           @msg = message.body
         end
         loop do
@@ -132,8 +129,7 @@ describe RuoteStomp::ParticipantProxy, :type => :ruote do
       begin
         Timeout::timeout(5) do
           @msg = nil
-          #MQ.queue('test5', :durable => true).subscribe { |msg| @msg = msg }
-          $stomp.subscribe("/queue/test5", {}) do |message|
+          $stomp.subscribe("/queue/test5") do |message|
             @msg = message.body
           end
           loop do
@@ -162,7 +158,7 @@ describe RuoteStomp::ParticipantProxy, :type => :ruote do
       Timeout::timeout(10) do
   
         #MQ.queue('test6', :durable => true).subscribe { |m| msg = m }
-        $stomp.subscribe("/queue/stomp", {}) do |message|
+        $stomp.subscribe("/queue/stomp") do |message|
           msg = message.body
         end
         loop do

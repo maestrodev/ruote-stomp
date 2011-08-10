@@ -1,4 +1,3 @@
-
 module RuoteSpecHelpers
 
   def purge_engine
@@ -22,7 +21,6 @@ module RuoteSpecHelpers
   end
 
   def noisy(on = true)
-
     @engine.context.logger.noisy = on
   end
 end
