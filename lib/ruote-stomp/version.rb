@@ -1,4 +1,4 @@
 module RuoteStomp
-  VERSION = '2.2.0.c'
+  VERSION = '2.2.2'
 end
 

@@ -43,9 +43,18 @@ module RuoteStomp
         Thread.abort_on_exception = true
 
         begin
-          $stomp = OnStomp::Client.new create_connection_uri(STOMP.settings)
-          $stomp.connect
-
+          if STOMP.settings[:ssl]
+            $stomp = OnStomp::Client.new(create_connection_uri(STOMP.settings),
+              :ssl => {
+                :ca_file => STOMP.settings[:cert],
+                :verify_mode => OpenSSL::SSL::VERIFY_NONE
+              }
+            )
+            $stomp.connect
+          else
+            $stomp = OnStomp.connect create_connection_uri(STOMP.settings)
+          end
+          
           if $stomp && $stomp.connected?
             started!
             cv.signal
@@ -85,8 +94,9 @@ module RuoteStomp
       passcode = config[:passcode]
       host = config[:host]
       port = config[:port]
-      ssl = config[:ssl] ? "+ssl" : ""
-
+      ssl = config[:ssl] || false
+      cert = config[:cert] || ""
+      
       # construct the connection URI
       user_and_password = [user,passcode].reject{|e| e.nil? || e.empty?}.join(":")
       host_and_port = [host,port].reject{|e| e.nil? || e.empty?}.join(":")
