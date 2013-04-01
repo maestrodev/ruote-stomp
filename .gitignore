@@ -4,7 +4,5 @@ logs/
 pkg/
 .yardoc
 doc/
-log/
-ruote-stomp-2.2.0.gem
-
-ruote-stomp-2.2.0.b.gem
+ruote-stomp-*.gem
+Gemfile.lock

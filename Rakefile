@@ -12,6 +12,7 @@ require 'rake/task'
 #
 # clean
 
+CLOBBER.include('.bundle', 'daemons', 'logs')
 CLEAN.include('pkg', 'rdoc')
 
 
@@ -24,7 +25,7 @@ task :spec do
 end
 
 task :test => [ :spec ]
-task :default => [ :spec ]
+task :default => [ :clean, :spec, :build ]
 
 
 #

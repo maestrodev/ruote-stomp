@@ -1,7 +1,7 @@
 
 = ruote-stomp
 
-* http://github.com/kitplummer/ruote-stomp
+* http://github.com/maestrodev/ruote-stomp
 
 == DESCRIPTION:
 
