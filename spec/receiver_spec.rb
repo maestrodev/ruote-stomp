@@ -80,7 +80,6 @@ describe RuoteStomp::Receiver do
     begin
       Timeout::timeout(20) do
         while @tracer.to_s.empty?
-          print "*"
           sleep 1
         end
       end

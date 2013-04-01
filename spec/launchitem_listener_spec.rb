@@ -30,7 +30,6 @@ describe RuoteStomp::LaunchitemListener do
     begin
       Timeout::timeout(10) do
         while @tracer.to_s.empty?
-          print "*"
           sleep 1
         end
       end
