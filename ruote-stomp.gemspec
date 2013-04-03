@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
 
-  s.name = 'ruote-stomp'
+  s.name = 'ruote-stomp-maestrodev'
   s.version = File.read('lib/ruote-stomp/version.rb').match(/VERSION = '([^']+)'/)[1]
   s.platform = Gem::Platform::RUBY
   s.authors = [ 'Kit Plummer', 'Brian Sam-Bodden' ]
