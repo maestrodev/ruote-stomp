@@ -60,7 +60,7 @@ module RuoteStomp
             cv.signal
           end
         rescue Exception => e
-          raise RuntimeError, "Failed to connect to Stomp server. (#{e.message})", e.backtrace
+          raise e, "Failed to connect to Stomp server: #{e.message}"
         end
       end
 
@@ -89,12 +89,11 @@ module RuoteStomp
     protected
     
     def create_connection_uri(config={})
-      config.each {|n,v| config[n]=v.to_s}
       user = config[:user]
       passcode = config[:passcode]
       host = config[:host]
-      port = config[:port]
-      ssl = config[:ssl] ? "+ssl" : ""
+      port = config[:port].to_s
+      ssl = (config[:ssl] and !config[:ssl].to_s.empty?) ? "+ssl" : ""
       cert = config[:cert] || ""
       
       # construct the connection URI
