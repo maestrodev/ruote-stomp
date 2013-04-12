@@ -3,10 +3,12 @@ $:.unshift('.') # 1.9.2
 
 require 'rubygems'
 require 'rubygems/user_interaction' if Gem::RubyGemsVersion == '1.5.0'
+require 'rubygems/package_task'
 
 require 'rake'
 require 'rake/clean'
 require 'rake/task'
+require 'rspec/core/rake_task'
 
 
 #
@@ -19,10 +21,8 @@ CLEAN.include('pkg', 'rdoc')
 #
 # test / spec
 
-task :spec do
+RSpec::Core::RakeTask.new
 
-  sh 'rspec spec/'
-end
 
 task :test => [ :spec ]
 task :default => [ :clean, :spec, :build ]
@@ -31,26 +31,24 @@ task :default => [ :clean, :spec, :build ]
 #
 # gem
 
-GEMSPEC_FILE = Dir['*.gemspec'].first
-GEMSPEC = eval(File.read(GEMSPEC_FILE))
-GEMSPEC.validate
-
-
 desc %{
   builds the gem and places it in pkg/
 }
 task :build do
-
-  sh "gem build #{GEMSPEC_FILE}"
-  sh "mkdir pkg" rescue nil
-  sh "mv #{GEMSPEC.name}-#{GEMSPEC.version}.gem pkg/"
+  GEMSPEC_FILE = Dir['*.gemspec'].first
+  GEMSPEC = eval(File.read(GEMSPEC_FILE))
+  GEMSPEC.validate
+  g = Gem::Builder.new(GEMSPEC).build
+  pkgdir = 'pkg'
+  mkdir pkgdir
+  mv g, pkgdir
+  "#{pkgdir}/#{g}"
 end
 
 desc %{
   builds the gem and pushes it to rubygems.org
 }
 task :push => :build do
-
   sh "gem push pkg/#{GEMSPEC.name}-#{GEMSPEC.version}.gem"
 end
 
